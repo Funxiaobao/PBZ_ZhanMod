@@ -1,0 +1,80 @@
+# 安装说明 · PBZ_ZhanMod v0.1
+
+> 这是**测试用**的 UE4SS Lua Mod，只验证「按 K 能不能进 Lua、能不能摸到游戏对象」。装错了不会坏存档，但请先备份存档养成习惯。
+
+## 一、前置条件
+
+| 项目 | 要求 |
+| --- | --- |
+| 游戏 | 影之刃零 PC（Steam 版），能正常进到存档场景 |
+| Mod 环境 | UE4SS 已装到游戏根目录（`platform\steam\ue4ss\` 存在） |
+| 按键 | 键盘 **K**（默认未占用，冲突了改 `main.lua` 里的 key 绑定） |
+
+没装 UE4SS 的话，先装 UE4SS：把 release 包里的 `dwmapi.dll`、`ue4ss.dll`、`UE4SS-settings.ini`、`Mods\` 丢进 `platform\steam\Binaries\Win64\`（即 `PhantomBladeZone-Win64-Shipping.exe` 同级目录）。游戏更新后需要重装。
+
+## 二、安装步骤
+
+1. 找到游戏根目录的 UE4SS mods 文件夹，通常是：
+   ```
+   <游戏安装目录>\platform\steam\ue4ss\Mods\
+   ```
+2. 把整个 `PBZ_ZhanMod` 文件夹复制进去，最终路径应为：
+   ```
+   ...\ue4ss\Mods\PBZ_ZhanMod\Scripts\main.lua
+   ...\ue4ss\Mods\PBZ_ZhanMod\enabled.txt
+   ```
+   注意是**整个文件夹**，别只把 `main.lua` 扔进 Mods 根目录。
+3. 打开同目录的 `mods.txt`，加一行（`dlls.txt` 不需要动，这是纯 Lua Mod）：
+   ```
+   PBZ_ZhanMod : 1
+   ```
+   数字 `1` 表示启用，`0` 表示禁用。
+4. 保存文件，启动游戏，读档进到有角色的场景。
+
+## 三、验证是否装好
+
+- 进游戏后按一下 **K**。
+- 打开日志：
+  ```
+  <游戏安装目录>\platform\steam\ue4ss\UE4SS.log
+  ```
+- 搜索 `[ZhanMod]`，正常应看到：
+  ```
+  [ZhanMod] main.lua loaded
+  [ZhanMod] === K pressed ===
+  [ZhanMod] PC: ...
+  [ZhanMod] World: ...
+  [ZhanMod] HUD: ...
+  ```
+  后面跟着扫描到的可疑 Class 名字。
+
+## 四、常见问题
+
+**日志里有 `main.lua loaded`，但按 K 没反应**
+大概率是键位没绑定成功或焦点不在游戏窗口。先点一下游戏画面再按；仍无效就改 `main.lua` 里的按键注册，换 `J` 或 `F8` 试。
+
+**日志里连 `main.lua loaded` 都没有**
+- `mods.txt` 里没写 `PBZ_ZhanMod : 1`，或者文件夹层级多套了一层（变成 `Mods\PBZ_ZhanMod\PBZ_ZhanMod\Scripts`）。
+- UE4SS 版本太旧，不支持 Lua mod。换最新 release。
+- 看 `UE4SS.log` 开头有没有 UE4SS 自己的启动信息，没有就是 UE4SS 本体没加载。
+
+**报 `PlayerController 还没拿到`**
+在标题界面/读档界面按的。进到实际场景再按。
+
+**游戏更新后失效**
+Steam 更新会覆盖 `dwmapi.dll` 等文件，UE4SS 和 Mod 都要重装一遍。
+
+## 五、卸载
+
+删掉 `Mods\PBZ_ZhanMod` 文件夹，并删掉 `mods.txt` 里的 `PBZ_ZhanMod : 1` 那一行即可，不留残留。
+
+## 六、目录结构
+
+```
+PBZ_ZhanMod/
+├─ enabled.txt        # UE4SS 识别用标记
+├─ README.md
+├─ INSTALL.md         # 本文件
+└─ Scripts/
+   └─ main.lua        # 全部逻辑在这
+```

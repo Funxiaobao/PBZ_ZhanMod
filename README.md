@@ -17,3 +17,7 @@
 - `main.lua` 加载时打一行 `main.lua loaded`
 - 按 K：打印 PlayerController / World / HUD 的 FullName
 - 遍历已加载 Class，按关键词（`BossKill` `Zhan` `Letter` `UIBlend` `Exec` `Chuzhan`）找可疑 UMG
+
+## 安装
+
+详细步骤见 [INSTALL.md](INSTALL.md)。
